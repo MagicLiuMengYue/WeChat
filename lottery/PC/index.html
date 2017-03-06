@@ -1,0 +1,201 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+    "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>抽奖</title>
+    <link href="css/index.css" rel="stylesheet" type="text/css" charset="utf-8" />
+
+    <script type="text/javascript" charset="utf-8" src="js/jquery.js">
+    </script>
+    <script type="text/javascript" charset="utf-8" src="js/index.js">
+    </script>
+</head>
+
+<body>
+
+    <!--页面主体start-->
+    <div class="sp_body">
+        <script>
+            (function() {
+                $(function() {
+                    var actNum = -1; //数字牌子图片
+                    var temp = -1;
+                    var img = -1; //奖品图片
+                    var timer = null;
+                    var count = 3;//抽奖次数
+                    var isstart = true;//是否闪动
+                    var arr = [
+                        "images/img01.jpg",
+                        "images/img02.jpg",
+                        "images/img03.jpg",
+                        "images/img04.jpg",
+                        "images/img05.jpg",
+                        "images/img06.jpg"
+                    ]
+                    var lately;
+                    timer = setInterval(start, 600);
+                    // 页面初始化
+                    function start() {
+                        do {
+                            actNum = parseInt(Math.floor(Math.random() * 8 + 1)); //1-8号牌子
+                        } while (actNum == temp);
+                        temp = actNum; //防止生成的随机数和上一次一样
+                        //随机奖品图片
+                        img = parseInt(Math.floor(Math.random() * 6));
+                        lately = $(".lottery-unit-" + actNum).find(".img1").attr("src");
+                        //显示随机奖品
+                        $(".lottery-unit-" + actNum).find(".img1").attr("src", arr[img]);
+                        //随机闪动，0.3秒后隐藏
+                        var hide = (function(latelyimg, unitNum) {
+                            return function() {
+                                if (isstart == true) {
+                                    $(".lottery-unit-" + unitNum).find(".img1").attr("src", latelyimg);//隐藏后显示数字牌子
+                                }
+                            }
+                        })(lately, actNum);
+                        setTimeout(hide, 300);
+                    }
+                    //抽奖结果
+                    var lotteryEnd = function(num) {
+                        var html = '<p class="win-prize"><img src="images/prize'+(num+1)+'.gif" alt=""/></p>';
+                        jShare(html, "", function() {
+                            closeCallback();//关闭弹层后启动定时器
+                        });
+                        $('#popup_ok').html('');
+                    }
+                    //开始抽奖
+                    $(".lottery-unit").click(function() {
+                        //剩余次数为0时，显示没有机会
+                        if (count ==0) {
+                            var html = '<p class="win-prize"><img src="images/prize7.gif"/></p>';
+                            jShare(html, "", function() {
+                                closeCallback();
+                            });
+                            return false;
+                        }
+                        //点击过快时进行阻止
+                        if( img== -1){
+                            return false;
+                        }
+                        count--;
+                        if (isstart == true) {
+                            //清除自闪动定时器
+                            clearInterval(timer);
+                            //所有未选择牌子显示数字图片
+                            $(".lottery-unit-" + actNum).find(".img1").attr("src", lately);
+                        //显示随机奖品
+                            actNum =parseInt($(this).attr("index"));//当前选中的图片
+                            lately = $(".lottery-unit-" + actNum).find(".img1").attr("src");
+                            $(".lottery-unit-" + actNum).find(".img1").attr("src", arr[img]);//抽中的奖品图片
+                            isstart = false;//停止计时器
+                            lotteryEnd(img);//弹出奖品
+                        }
+                    })
+
+                    //弹层关闭后 重新启动定时器
+                    function closeCallback() {
+                        if (count <=0) {return false;}
+                        //隐藏牌子
+                        $(".lottery-unit-" + actNum).find(".img1").attr("src", lately);//恢复数字牌子
+                        actNum = -1;
+                        temp = -1;
+                        img = -1;
+                        isstart = true;
+                        timer = setInterval(start, 600);
+
+                    }
+
+                })
+            })();
+        </script>
+        <style>
+            body {background: #fff}
+            body .alContent {margin-top: 0;width: 960px;height: 1010px;margin: 0 auto;background: url(images/top_bg.png) center top repeat-y;background-size: 100% auto;}
+            .title-top {position: relative;text-align: center;}
+            #lottery {width: 740px;height: 740px;padding: 20px;margin: auto; z-index: 3;background: #fff;box-sizing: border-box}
+            #lottery ul li {padding: 0 0;}
+            #lottery span {width: 220px;height: 220px;display: block;position: relative; float: left;text-align: center;overflow: hidden;margin: 0 20px 20px 0}
+            #lottery span:last-child {margin-right: 0}
+            #lottery span.start { width: 220px; height: 220px;overflow: hidden;text-indent: -999px;}
+            #lottery span.active {border: 1px dashed #fff;position: relative;z-index: 999}
+            #lottery span.active em { display: block; width: 220px; height: 220px; position: absolute; top: 0; left: 0; background:rgba(193, 10, 20, 0.5); border-radius: 10px; }
+            #lottery img { overflow: hidden; display: block; width: 100%; position: absolute; top: 0; left: 0; cursor: pointer; }
+            #lottery ul li span img:first-child { z-index: 99 }
+            .con{ position: relative; }
+            .con .con-text { margin: 20px 15px; padding: 0 20px; }
+            .con .con-text li { list-style: disc; line-height: 24px; } 
+            .sroll-text { border: 1px dashed #fff; border-radius: 10px; margin:0 20px 20px; height: 126px; overflow: hidden; } 
+            .sroll-text>div { margin: 15px; height: 96px; overflow: hidden; } 
+            .lottery_list{ height: 96px; overflow: hidden; }
+            .lottery_list li { position: relative; line-height: 24px; color: #fff; white-space: nowrap; overflow: hidden; text-overflow:ellipsis; font-size: 14px; }
+            #popup_container { opacity: 1; color: #000; font-weight: normal; line-height: 1.5; -webkit-box-shadow: none; box-shadow:none; }
+            #popup_content {padding: 0;}
+            #popup_container #popup_message { height: auto; margin: 0; padding: 0; }
+            #popup_container #popup_message h3 { text-align: left; color: #232323; line-height: 50px; font-size: 15px; font-weight: normal;padding-left: 20px; margin-top: 5px; }
+            #popup_container #popup_message h3 strong { color: #fc476e; font-size: 20px; }
+            #popup_container #popup_message p { padding-left: 20px; text-align: left; color: #fc476e; font-size: 12px; line-height: 22px;min-height: 0; }
+            #popup_container #popup_message p.win-prize {font-size: 15px;font-weight: bold;margin: 10px 0 15px;}
+            #popup_container #popup_message p.win-prize em {font-size: 40px;}
+            #popup_container #popup_message p.win-info strong {font-size: 14px;font-weight: bold;}
+            #popup_container #popup_message p.win-info strong a {color: #fc476e;text-decoration: underline}
+            #popup_container #popup_message p.remainder-times {color: #000;font-size: 12px;font-weight: bold}
+            
+            #popup_container.second #popup_message p.win-prize { font-size: 15px; font-weight: normal; margin: 5px 0; } 
+            #popup_container.second #popup_message p.win-prize a.click-look { display: inline-block; background: #fff; color: #fc476e; padding-left: 5px; text-decoration:underline } 
+            #popup_container.second #popup_message p.win-prize em { font-size: 30px; font-weight: bold; } 
+            #popup_container p span { color: #e13624; }
+            
+            #popup_container.faid #popup_message p { margin-top: 25px; } 
+            #popup_panel { position: absolute; width: 40px; height: 40px;right: 0; top: 0 }
+            #popup_content button { background: rgba(0, 0, 0, 0); display: block; margin: 10px 0 0 5px; width: 35px; height: 35px; color:#fff; padding: 0; line-height: 30px; font-size: 40px; font-weight: normal; border: none; }
+            .bodyHei { height: 100%; overflow: hidden; }
+            #popup_message p span { color: #f6ff00; }
+            #popup_ok{cursor: pointer;outline: none;}
+        </style>
+
+        <div class="alContent">
+            <h1 class="title-top">
+                <img src="images/top_title.png">
+            </h1>
+            <!--------转盘S------>
+            <div id="lottery">
+                <span class="lottery-unit lottery-unit-1" index="1">
+                    <img src="images/1.jpg" class="img1"/>
+                </span>
+                <span class="lottery-unit lottery-unit-2" index="2">
+                    <img src="images/2.jpg"  class="img1"/>
+                </span>
+                <span class="lottery-unit lottery-unit-3" index="3" style="margin-right:0">
+                    <img src="images/3.jpg" class="img1" />
+                </span>
+                <span class="lottery-unit lottery-unit-8" index="8">
+                    <img src="images/8.jpg"  class="img1"/>
+                </span>
+                <span class="start"><img src="images/9.gif"/></span>
+                <span class="lottery-unit lottery-unit-4" index="4" style="margin-right:0">
+                    <img src="images/4.jpg"  class="img1"/>
+                </span>
+                <span class="lottery-unit lottery-unit-7" index="7">
+                    <img src="images/7.jpg"  class="img1"/>
+                </span>
+                <span class="lottery-unit lottery-unit-6" index="6">
+                    <img src="images/6.jpg"  class="img1"/>
+                </span>
+                <span class="lottery-unit lottery-unit-5" index="5" style="margin-right:0">
+                    <img src="images/5.jpg"  class="img1"/>
+                </span>
+                <div class="lottery-show"></div>
+            </div>
+            <!--------转盘end------>
+            <h1 class="title-bottom">
+                <img src="images/footer.png">
+            </h1>
+        </div>
+
+    </div>
+    <!--页面主体end-->
+</body>
+
+</html>

@@ -1,0 +1,537 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+    "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>女士圣诞节</title>
+    <script src="../jquery.js"></script>
+</head>
+<body>   
+<!--页面主体start-->
+<div class="sp_body">
+    <script type="text/javascript">                        
+        $(function () {
+            //取消活动的公共方法
+            function endActivity(ele){
+                $(ele).find(".img3").show().siblings().hide();
+                $(ele).find(".right").children("a").attr("href","javascript:;");
+            }
+            var isIE = /msie/.test(navigator.userAgent.toLowerCase());
+            if(isIE){
+                $(".page_box").removeClass("page_box")
+
+                $("#front").removeAttr("id");
+                $("#right").removeAttr("id");
+                
+                $(".box_right").css({display:"block",zIndex:"9"})
+                $(".front").css({zIndex:"99",position:"absolute",top:"0",left:"0"});
+                $(".right").css({zIndex:"9",position:"absolute",top:"0",left:"0"});
+                var curTime;
+                $.ajax({
+                        url: "http://www.shangpin.com/gettime?r="+Math.random(),
+                        type: "get",
+                        async: false,
+                        success: function (data,status,xhr) {
+                            curTime = new Date(xhr.getResponseHeader("Date")).getDate();
+                        }
+                    });
+                // 大盒子翻转
+                $(".box_front").click(function () {
+                    $(".box_front").hide();    
+                })
+                // 子盒子翻转
+                $(".viewport").mouseover(function () {
+                    $(this).find(".front").hide(); 
+                    //显示的活动图片和链接
+                        var arr = [
+                        "http://www.shangpin.com/men/subject/61207829",
+                        "http://www.shangpin.com/men",
+                        "http://www.shangpin.com/men/subject/61207850",
+                        "http://www.shangpin.com/men/subject/61207831",
+                        "http://www.shangpin.com/men/subject/61207832",
+                        "http://www.shangpin.com/men/subject/61207833",
+                        "http://www.shangpin.com/men/subject/61207851",
+                        "http://www.shangpin.com/men/subject/61207834",
+                        "http://www.shangpin.com/men/subject/61207835",
+                        "http://www.shangpin.com/men/subject/61207836",
+                        "http://www.shangpin.com/men/subject/61207837",
+                        "http://www.shangpin.com/men/subject/61207838",
+                        "http://www.shangpin.com/men/subject/61207839",
+                        "http://www.shangpin.com/men/subject/61207852"
+                    ]
+                    //之前日期 
+                    var preTime = $(this).index()+11;//11    
+                    if(preTime<=curTime){
+                        $(this).find(".right").children("a").attr("href",arr[preTime-11]);//11号的链接 
+                        $(this).find(".right").children("a").children(".img2").show().siblings().hide();//11号的图片
+                    }   
+                    //11号 12号活动结束 
+                    if(preTime == 12){  
+                        endActivity(this);
+                    }
+                    //18.9活动 在21日零点结束
+                    if(curTime >= 21){
+                        endActivity(".day18");
+                        endActivity(".day19");
+                    }
+                    //24日零点结束 的活动
+                    if(curTime >= 24){
+                        endActivity(".day22");
+                    }
+                    //25日零点结束 的活动
+                    if(curTime >= 25){
+                        endActivity(".day15");
+                        endActivity(".day21");
+                    }
+                    //26日零点结束 的活动
+                    if(curTime >= 26){
+                        endActivity(this);
+                    }
+                });
+                $(".viewport").mouseout(function () {
+                    $(".front").show();
+                }) 
+                if(curTime == 12){
+                    $("#front").css({'background':'url(http://pic1.shangpin.com/group1/M00/47/C4/rBQKaVhOEiyARy68AAYzreHY57g963.jpg)'})
+                    $("#front").click(function () {
+                        $("#calendar_box").css("transform", "rotateY(-90deg)");
+                        setTimeout(function () {
+                            $(".coupon").fadeIn();
+                            $(".close,.getCashs").click(function () {
+                                $(".coupon").fadeOut();
+                            })
+                        },500);
+                        
+                    })
+                }
+            };
+            //其他浏览器
+            var curTime;
+            $.ajax({
+                    url: "http://www.shangpin.com/gettime?r="+Math.random(),
+                    type: "get",
+                    async: false,
+                    success: function (data,status,xhr) {
+                        curTime = new Date(xhr.getResponseHeader("Date")).getDate();
+                    }
+                });
+            // 大盒子翻转
+            $("#front").click(function () {
+                $("#right").show();
+                $("#calendar_box").css("transform", "rotateY(-90deg)");    
+                setTimeout(function () {
+                    $("#front").hide();
+                },500);   
+            })
+            // 子盒子翻转
+            $(".viewport").mouseover(function () {
+                $(this).children(".page_box").css("transform", "rotateY(-90deg)");
+                //显示的活动图片和链接
+                    var arr = [
+                    "http://www.shangpin.com/men/subject/61207829",
+                    "http://www.shangpin.com/men",
+                    "http://www.shangpin.com/men/subject/61207850",
+                    "http://www.shangpin.com/men/subject/61207831",
+                    "http://www.shangpin.com/men/subject/61207832",
+                    "http://www.shangpin.com/men/subject/61207833",
+                    "http://www.shangpin.com/men/subject/61207851",
+                    "http://www.shangpin.com/men/subject/61207834",
+                    "http://www.shangpin.com/men/subject/61207835",
+                    "http://www.shangpin.com/men/subject/61207836",
+                    "http://www.shangpin.com/men/subject/61207837",
+                    "http://www.shangpin.com/men/subject/61207838",
+                    "http://www.shangpin.com/men/subject/61207839",
+                    "http://www.shangpin.com/men/subject/61207852"
+                ]
+                //显示正在售卖的图片和链接 
+                var preTime = $(this).index()+11;//11    
+                if(preTime<=curTime){
+                    $(this).find(".right").children("a").attr("href",arr[preTime-11]);//11号的链接 
+                    $(this).find(".right").children("a").children(".img2").show().siblings().hide();//11号的图片
+                } 
+
+                //11号 12号活动结束 
+                if(preTime == 12){  
+                    endActivity(this);
+                }
+                //18.9活动 在21日零点结束
+                if(curTime >= 21){
+                    endActivity(".day18");
+                    endActivity(".day19");
+                }
+                //24日零点结束 的活动
+                if(curTime >= 24){
+                    endActivity(".day22");
+                }
+                //25日零点结束 的活动
+                if(curTime >= 25){
+                    endActivity(".day15");
+                    endActivity(".day21");
+                }
+                //26日零点结束 的活动
+                if(curTime >= 26){
+                    endActivity(this);
+                }
+
+            })
+            $(".viewport").mouseout(function () {
+                $(this).children(".page_box").css("transform", "rotateY(0deg)");
+            }) 
+            if(curTime == 12){
+                $("#front").css({'background':'url(http://pic1.shangpin.com/group1/M00/47/C4/rBQKaVhOEiyARy68AAYzreHY57g963.jpg)'})
+                $("#front").click(function () {
+                    $("#calendar_box").css("transform", "rotateY(-90deg)");
+                    setTimeout(function () {
+                        $(".coupon").fadeIn();
+                        $(".close,.getCashs").click(function () {
+                            $(".coupon").fadeOut();
+                        })
+                    },500);
+                    
+                })
+            }
+        }); 
+    </script>
+    <style type="text/css"> 
+        .box1900{height:1447px;position: relative;width: 960px;margin: 0 auto;}
+        body {background: #fff;color: #efefef;}
+        #calendar_box img{width: 100%}
+        #viewport {
+            width:960px;height:1447px ;position: absolute;top:50%;left: 50%;
+            perspective: 1200000px;
+            -webkit-perspective: 1200000px;
+            -moz-perspective: 1200000px;
+            -ms-perspective: 1200000px;
+            transform: translateX(-50%) translateY(-50%);
+            -webkit-transform: translateX(-50%) translateY(-50%);
+            -moz-transform: translateX(-50%) translateY(-50%);
+            -ms-transform: translateX(-50%) translateY(-50%);
+        }
+        #calendar_box {
+            width: 100%;height: 100%;
+            transform-style: preserve-3D;transition: all 0.5s;
+            -webkit-transform-style: preserve-3D;-webkit-transition: all 0.5s;
+            -moz-transform-style: preserve-3D;-moz-transition: all 0.5s;
+            -ms-transform-style: preserve-3D;-ms-transition: all 0.5s;
+        }
+        #calendar_box>div { width: 100%;height: 100%;position: absolute;color: #fff;background-size:100% 100%;    }
+        #front {
+            background:url('images/home1.jpg');
+            -webkit-transform: translateZ(480px);
+            -moz-transform: translateZ(480px);
+            -ms-transform: translateZ(480px);
+            transform: translateZ(480px);cursor: pointer;
+        }
+        #right {
+            background:#fff;
+            display: none;
+            -webkit-transform: translateX(482px) rotateY(90deg);
+            -moz-transform: translateX(482px) rotateY(90deg);
+            -ms-transform: translateX(482px) rotateY(90deg);
+            transform: translateX(482px) rotateY(90deg);
+        }
+        .box_front{ background:url('images/home1.jpg');cursor: pointer;z-index: 99;}
+        /*所有子盒子的pagebox*/
+        .page_box{
+            transform-style: preserve-3D;transition: all 0.5s;
+            -webkit-transform-style: preserve-3D;-webkit-transition: all 0.5s;
+            -moz-transform-style: preserve-3D;-moz-transition: all 0.5s;
+            -ms-transform-style: preserve-3D;-ms-transition: all 0.5s;
+            width: 100%;height: 100%;
+        }
+        .page_box div{ width: 100%;height: 100%;position: absolute;color: #000;background-size:100% 100%;}
+        .front,.right{cursor: pointer;}
+        .viewport{perspective: 1200000px;-webkit-perspective: 1200000px;-moz-perspective: 1200000px;-ms-perspective: 1200000px;}
+        /*box1*/
+        .box1.viewport{width: 240px;height: 408px;position: absolute;top: 0px;}
+        .box1 .page_box .front{
+            transform: translateZ(120px);
+            -webkit-transform: translateZ(120px);
+            -moz-transform: translateZ(120px);
+            -ms-transform: translateZ(120px);
+        }
+        .box1 .page_box .right{ 
+            transform:translateX(120px) rotateY(90deg);
+            -webkit-transform:translateX(120px) rotateY(90deg);
+            -moz-transform:translateX(120px) rotateY(90deg);
+            -ms-transform:translateX(120px) rotateY(90deg);
+        }
+        /*box2*/
+        .box2.viewport{
+            width: 240px;height: 209px;position: absolute;right:0;
+        }
+        .box2 .page_box .front{
+            transform: translateZ(120px);
+            -webkit-transform: translateZ(120px);
+            -moz-transform: translateZ(120px);
+            -ms-transform: translateZ(120px);
+        }
+        .box2 .page_box .right{
+            transform: translateX(120px) rotateY(90deg);
+            -webkit-transform: translateX(120px) rotateY(90deg); 
+            -moz-transform: translateX(120px) rotateY(90deg); 
+            -ms-transform: translateX(120px) rotateY(90deg);    
+        }
+        /*box3*/
+        .box3.viewport{width: 240px;height: 408px;position: absolute;bottom: 4px}
+        .box3 .page_box .front{
+            transform: translateZ(120px);
+            -webkit-transform: translateZ(120px);
+            -moz-transform: translateZ(120px);
+            -ms-transform: translateZ(120px);
+        }
+        .box3 .page_box .right{
+            transform: translateX(120px) rotateY(90deg);
+            -webkit-transform: translateX(120px) rotateY(90deg); 
+            -moz-transform: translateX(120px) rotateY(90deg); 
+            -ms-transform: translateX(120px) rotateY(90deg); 
+        }
+        /*box4*/
+        .box4.viewport{width: 240px;height: 209px;position: absolute;left:0;}
+        .box4 .page_box .front{
+            transform: translateZ(120px);
+            -webkit-transform: translateZ(120px);
+            -moz-transform: translateZ(120px);
+            -ms-transform: translateZ(120px);
+        }
+        .box4 .page_box .right{
+            transform: translateX(120px) rotateY(90deg);
+            -webkit-transform: translateX(120px) rotateY(90deg); 
+            -moz-transform: translateX(120px) rotateY(90deg); 
+            -ms-transform: translateX(120px) rotateY(90deg); 
+        }
+        /*box5*/
+        .box5.viewport{ width: 480px;height: 627px;position: absolute;left:0;}
+        .box5 .page_box .front{
+            transform: translateZ(240px);
+            -webkit-transform: translateZ(240px);
+            -moz-transform: translateZ(240px);
+            -ms-transform: translateZ(240px);
+        }
+        .box5 .page_box .right{
+            transform: translateX(240px) rotateY(90deg);
+            -webkit-transform: translateX(240px) rotateY(90deg);
+            -moz-transform: translateX(240px) rotateY(90deg);
+            -ms-transform: translateX(240px) rotateY(90deg);
+        }
+        .viewport .right a .img2{display: none}
+        .viewport .right a .img3{display: none}
+        .coupon{width:540px;height: 720px;position: absolute;top: 50%;left: 50%;margin-top:-360px;margin-left: -270px;z-index: 99;display: none }    
+    </style>
+     <!--banner-->
+    <div class="box1900">
+        <!--日历盒子-->
+        <div id="viewport">
+            <div id="calendar_box">
+                <div id="front" class="box_front"></div>
+                <div id="right" class="box_right">                   
+                    <!--第1天-->
+                    <div class="box1 viewport day11" style="left: 0;">
+                        <div class="page_box">
+                            <div class="front"><img src="images/1.jpg" ></div>
+                            <div class="right">
+                                <a href="javascript:;" target="_blank">
+                                    <img src="page1/1-01.jpg" class="img1">
+                                    <img src="page1/1-02.jpg" class="img2" >
+                                    <img src="page1/1-03.jpg" class="img3" >
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!--第2天-->
+                    <div class="box1 viewport day12" style="left: 240px;">
+                        <div class="page_box">
+                            <div class="front"><img src="images/2.jpg" ></div>
+                            <div class="right">
+                                <a href="javascript:;" target="_blank">
+                                    <img src="page1/2-01.jpg" class="img1">
+                                    <img src="page1/2-02.jpg" class="img2" >
+                                    <img src="page1/2-03.jpg" class="img3" >
+                                </a>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <!--第3天-->
+                    <div class="box1 viewport day13" style="left: 480px;">
+                        <div class="page_box">
+                            <div class="front"><img src="images/3.jpg" ></div>
+                            <div class="right">
+                                <a href="javascript:;" target="_blank">
+                                    <img src="page1/3-01.jpg" class="img1">
+                                    <img src="page1/3-02.jpg" class="img2" >
+                                    <img src="page1/3-03.jpg" class="img3" >
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!--第4天-->
+                    <div class="box1 viewport day14" style="right: 0;">
+                        <div class="page_box">
+                            <div class="front"><img src="images/4.jpg" ></div>
+                            <div class="right">
+                                <a href="javascript:;" target="_blank">
+                                    <img src="page1/4-01.jpg" class="img1">
+                                    <img src="page1/4-02.jpg" class="img2" >
+                                    <img src="page1/4-03.jpg" class="img3" >
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!--第5天-->
+                    <div class="box2 viewport day15" style="right: 0;top:408px">
+                        <div class="page_box">
+                            <div class="front"><img src="images/5.jpg" ></div>
+                            <div class="right">
+                                <a href="javascript:;" target="_blank">
+                                    <img src="page1/5-01.jpg" class="img1">
+                                    <img src="page1/5-02.jpg" class="img2" >
+                                    <img src="page1/5-03.jpg" class="img3" >
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!--第6天-->
+                    <div class="box2 viewport day16" style="right: 0;top:617px">
+                        <div class="page_box">
+                            <div class="front"><img src="images/6.jpg" ></div>
+                           <div class="right">
+                                <a href="javascript:;" target="_blank">
+                                    <img src="page1/6-01.jpg" class="img1">
+                                    <img src="page1/6-02.jpg" class="img2" >
+                                    <img src="page1/6-03.jpg" class="img3" >
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!--第7天-->
+                    <div class="box2 viewport day17" style="right: 0;top:826px">
+                        <div class="page_box">
+                            <div class="front"><img src="images/7.jpg" ></div>
+                           <div class="right">
+                                <a href="javascript:;" target="_blank">
+                                    <img src="page1/7-01.jpg" class="img1">
+                                    <img src="page1/7-02.jpg" class="img2" >
+                                    <img src="page1/7-03.jpg" class="img3" >
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                     <!--第8天-->
+                    <div class="box3 viewport day18" style="right: 0;">
+                        <div class="page_box">
+                            <div class="front"><img src="images/8.jpg" ></div>
+                            <div class="right">
+                                <a href="javascript:;" target="_blank">
+                                    <img src="page1/8-01.jpg" class="img1">
+                                    <img src="page1/8-02.jpg" class="img2" >
+                                    <img src="page1/8-03.jpg" class="img3" >
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                     <!--第9天-->
+                    <div class="box3 viewport day19" style="right: 240px;">
+                        <div class="page_box">
+                            <div class="front"><img src="images/9.jpg" ></div>
+                            <div class="right">
+                                <a href="javascript:;" target="_blank">
+                                    <img src="page1/9-01.jpg" class="img1">
+                                    <img src="page1/9-02.jpg" class="img2" >
+                                    <img src="page1/9-03.jpg" class="img3" >
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!--第10天-->
+                    <div class="box3 viewport day20" style="right: 480px;">
+                        <div class="page_box">
+                            <div class="front"><img src="images/10.jpg" ></div>
+                            <div class="right">
+                                <a href="javascript:;" target="_blank">
+                                    <img src="page1/10-01.jpg" class="img1">
+                                    <img src="page1/10-02.jpg" class="img2" >
+                                    <img src="page1/10-03.jpg" class="img3" >
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                     <!--第11天-->
+                    <div class="box3 viewport day21" style="left: 0;">
+                        <div class="page_box">
+                            <div class="front"><img src="images/11.jpg" ></div>
+                            <div class="right">
+                                <a href="javascript:;" target="_blank">
+                                    <img src="page1/11-01.jpg" class="img1">
+                                    <img src="page1/11-02.jpg" class="img2" >
+                                    <img src="page1/11-03.jpg" class="img3" >
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!--第12天-->
+                    <div class="box4 viewport day22" style="left: 0;top:826px">
+                        <div class="page_box">
+                            <div class="front"><img src="images/12.jpg" ></div>
+                            <div class="right">
+                                <a href="javascript:;" target="_blank">
+                                    <img src="page1/12-01.jpg" class="img1">
+                                    <img src="page1/12-02.jpg" class="img2" >
+                                    <img src="page1/12-03.jpg" class="img3" >
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!--第13天-->
+                    <div class="box4 viewport day23" style="left: 0;top: 617px;">
+                        <div class="page_box">
+                            <div class="front"><img src="images/13.jpg" ></div>
+                            <div class="right">
+                                <a href="javascript:;" target="_blank">
+                                    <img src="page1/13-01.jpg" class="img1">
+                                    <img src="page1/13-02.jpg" class="img2" >
+                                    <img src="page1/13-03.jpg" class="img3" >
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!--第14天-->
+                    <div class="box4 viewport day24" style="left: 0;top:408px">
+                        <div class="page_box">
+                            <div class="front"><img src="images/14.jpg" ></div>
+                            <div class="right">
+                                <a href="javascript:;" target="_blank">
+                                    <img src="page1/14-01.jpg" class="img1">
+                                    <img src="page1/14-02.jpg" class="img2" >
+                                    <img src="page1/14-03.jpg" class="img3" >
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!--第15天-->
+                    <div class="box5 viewport day25" style="left: 240px;top:408px">
+                        <div class="page_box">
+                            <div class="front"><img src="images/15.jpg" ></div>
+                            <div class="right">
+                                <a href="javascript:;" target="_blank">
+                                    <img src="page1/15-01.jpg" class="img1">
+                                    <img src="page1/15-02.jpg" class="img2" >
+                                    <img src="page1/15-03.png" class="img3" >
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                     <!--12号优惠券-->
+                    <div class="coupon">
+                        <img src="page1/coupon.jpg" lazy="page1/coupon.jpg" usemap="#Map" border="0">
+                        <a href="javascript:;" class="close" style="display:block;width:70px;height:70px;position:absolute;top:0;right:0"></a>
+                        <a href="javascript:;" class="getCashs" onclick="getCashs(0)" style="display:block;width:200px;height:75px;position:absolute;bottom:100px;right:170px;"></a>  
+                    </div>
+                </div>
+            </div>
+        </div>  
+    </div>
+</div>
+<!--页面主体end-->
+</body>
+</html>
